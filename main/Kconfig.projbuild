@@ -1,0 +1,61 @@
+# Las opciones declaradas en un Kconfig.projbuild aparecen en el nivel superior
+# del menu de configuracion, junto a las de ESP-IDF, y no dentro del submenu de
+# configuracion de componentes. Se convierten en macros CONFIG_... disponibles
+# desde el codigo.
+#
+# Los pines no estan aqui: estan en main/pines.h, que es donde se declaran los
+# pines del proyecto.
+
+menu "SEyTR - Entrada por interrupcion"
+
+    config SEYTR_GUARDA_CORTA_MS
+        int "Tiempo de guarda corto, en milisegundos (tecla 1)"
+        range 1 1000
+        default 1
+        help
+            Un tiempo de guarda deliberadamente corto, para ver que es un
+            parametro que hay que ajustar: si es mas corto que el rebote de tu
+            pulsador, el rebote sigue contando.
+
+    config SEYTR_GUARDA_MS
+        int "Tiempo de guarda razonable, en milisegundos (tecla 2)"
+        range 1 1000
+        default 30
+        help
+            Tiempo durante el cual, despues de un flanco aceptado, los flancos
+            siguientes se descartan como rebote. Unas decenas de milisegundos
+            suelen bastar; conviene ajustarlo midiendo el rebote del propio
+            pulsador.
+
+    config SEYTR_CONFIRMACION_MS
+        int "Espera antes de confirmar el nivel, en milisegundos (tecla v)"
+        range 1 1000
+        default 20
+        help
+            Con la confirmacion del nivel activada, la tarea espera este tiempo
+            desde el flanco aceptado y comprueba que el pin sigue a nivel de
+            pulsado. Tiene que ser algo mayor que el rebote y menor que el
+            tiempo de guarda, para que los flancos que llegan mientras espera
+            se descarten como rebote.
+
+    config SEYTR_LONGITUD_COLA
+        int "Longitud de la cola de eventos"
+        range 1 256
+        default 32
+        help
+            Cuantos eventos caben en la cola entre la rutina de interrupcion y
+            la tarea. Si se llena, el envio falla, el evento se pierde y se
+            cuenta. Con un valor muy pequeno, por ejemplo 2, se puede ver.
+
+    config SEYTR_TRAZA_EN_ISR
+        bool "ANTIPATRON: trazar dentro de la rutina de interrupcion"
+        default n
+        help
+            Anade una llamada a ESP_LOGI() dentro de las dos rutinas de
+            interrupcion. Es el antipatron de la sesion, y esta aqui solo para
+            ensenarlo: la documentacion de ESP-IDF dice que ESP_LOGx no debe
+            usarse en una rutina de interrupcion. Con la version de ESP-IDF
+            del curso, lo esperable es que la placa se detenga en la primera
+            traza con abort() y se reinicie. No se replica en ningun proyecto.
+
+endmenu
