@@ -126,7 +126,7 @@ I (12345) entrada: nivel 1; en 500 lecturas: 0 cambios, 0 a nivel de pulsado; pu
 ```
 
 Con la resistencia activada, en reposo el nivel es 1 y no cambia; con el
-pulsador apretado, 0: es la **lógica invertida**. Con `p` quitas la resistencia
+pulsador apretado, 0: el pulsador es **activo a nivel bajo**. Con `p` quitas la resistencia
 y el pin queda **flotante**: lo que lee ya no está determinado por nada. Puede
 quedarse en un valor, cambiar al acercar la mano o al tocar el cable, o ir y
 venir. Fíjate en la cuenta de cambios. Vuelve a activarla con `p` antes de
