@@ -35,8 +35,8 @@ typedef struct {
  * pin: el GPIO del pulsador. Tiene que ser un pin válido: sin pulsador no hay
  *      nada que medir, y GPIO_NUM_NC da error.
  * nivel_pulsado: 0 si el pulsador va entre el pin y masa, que es el montaje de
- *      la sesión, con pull-up y lógica invertida; 1 si va entre el pin y
- *      3,3 V, con pull-down.
+ *      la sesión, con pull-up (activo a nivel bajo); 1 si va entre el pin y
+ *      3,3 V, con pull-down (activo a nivel alto).
  *
  * Devuelve ESP_OK; ESP_ERR_INVALID_ARG si pulsador es NULL o si el pin no
  * existe; o el error que devuelva gpio_config().
